@@ -3,7 +3,6 @@ import path from 'node:path';
 import { createFakeContact } from '../utils/createFakeContact.js';
 import fs from 'node:fs';
 
-
 // У файлі src/scripts/generateContacts.js опишіть функцію
 // generateContacts. Вона має за допомогою функції createFakeContact,
 //  створювати передану кількість згенерованих контактів,
@@ -23,14 +22,14 @@ const generateContacts = async (number) => {
     newFakeContacts.push(createFakeContact());
   }
 
-  const pathToWorkDir= path.join(process.cwd());
-  const filePath = path.join(pathToWorkDir,'//src//db//db.json');
-  fs.readFile(filePath, (err, fileContent) => {
+  const pathToWorkDir = path.join(process.cwd());
+  const filePath = path.join(pathToWorkDir, 'src', 'db', 'db.json');
+  fs.readFile(filePath, 'utf8', (err, fileContent) => {
+    const content = newFakeContacts.concat(JSON.parse(fileContent));
     console.log('====================================');
-    console.log(fileContent);
+    console.log(content);
     console.log('====================================');
   });
-
 };
 
 await generateContacts(5);
