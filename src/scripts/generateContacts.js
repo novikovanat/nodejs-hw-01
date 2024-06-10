@@ -1,7 +1,6 @@
-// import { PATH_DB } from '../constants/contacts.js';
-import path from 'node:path';
+import { PATH_DB } from '../constants/contacts.js';
 import { createFakeContact } from '../utils/createFakeContact.js';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 
 // У файлі src/scripts/generateContacts.js опишіть функцію
 // generateContacts. Вона має за допомогою функції createFakeContact,
@@ -21,15 +20,13 @@ const generateContacts = async (number) => {
   for (let i = 0; i < number; i++) {
     newFakeContacts.push(createFakeContact());
   }
-
-  const pathToWorkDir = path.join(process.cwd());
-  const filePath = path.join(pathToWorkDir, 'src', 'db', 'db.json');
-  fs.readFile(filePath, 'utf8', (err, fileContent) => {
-    const content = newFakeContacts.concat(JSON.parse(fileContent));
-    console.log('====================================');
-    console.log(content);
-    console.log('====================================');
-  });
+  try {
+    const previousContacts = await fs.readFile(PATH_DB, 'utf8');
+    const content = newFakeContacts.concat(JSON.parse(previousContacts));
+    return fs.writeFile(PATH_DB, JSON.stringify(content));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 await generateContacts(5);
