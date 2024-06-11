@@ -10,8 +10,8 @@ import fs from 'node:fs/promises';
 
 export const getAllContacts = async () => {
   try {
-    const allContacts = await fs.readFile(PATH_DB, 'utf8');
-    return JSON.parse(allContacts);
+    const contactsInArray = await fs.readFile(PATH_DB, 'utf8');
+    return JSON.parse(contactsInArray);
   } catch (error) {
     console.log(error);
   }

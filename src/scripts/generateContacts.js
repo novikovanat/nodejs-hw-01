@@ -21,8 +21,8 @@ const generateContacts = async (number) => {
     newFakeContacts.push(createFakeContact());
   }
   try {
-    const previousContacts = await fs.readFile(PATH_DB, 'utf8');
-    const content = newFakeContacts.concat(JSON.parse(previousContacts));
+    const contactsInArray = await fs.readFile(PATH_DB, 'utf8');
+    const content = newFakeContacts.concat(JSON.parse(contactsInArray));
     return fs.writeFile(PATH_DB, JSON.stringify(content));
   } catch (error) {
     console.log(error);
